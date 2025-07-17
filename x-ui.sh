@@ -134,7 +134,7 @@ before_show_menu() {
 }
 
 install() {
-    bash <(curl -Ls https://raw.githubusercontent.com/MistaX2/X-ui/refs/heads/main/x-ui.sh)
+    bash <(curl -Ls https://raw.githubusercontent.com/MistaX2/X-ui/refs/heads/main/install.sh)
     if [[ $? == 0 ]]; then
         if [[ $# == 0 ]]; then
             start
