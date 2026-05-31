@@ -1,0 +1,270 @@
+{{define "ruleModal"}}
+<a-modal id="rule-modal" v-model="ruleModal.visible" :title="ruleModal.title" @ok="ruleModal.ok"
+         :confirm-loading="ruleModal.confirmLoading" :closable="true" :mask-closable="false"
+         :ok-text="ruleModal.okText" cancel-text='{{ i18n "close" }}' :class="themeSwitcher.currentTheme">
+    <a-form :colon="false" :label-col="{ md: {span:8} }" :wrapper-col="{ md: {span:14} }">
+        <a-form-item label='{{ i18n "pages.routingRules.ruleTag" }}'>
+            <a-input v-model.trim="ruleModal.tag" placeholder='{{ i18n "pages.routingRules.ruleTagDesc" }}'></a-input>
+        </a-form-item>
+        <a-form-item label='{{ i18n "pages.xray.rule.domainMatcher" }}'>
+                    <a-select v-model="ruleModal.rule.domainMatcher" :dropdown-class-name="themeSwitcher.currentTheme">
+                        <a-select-option v-for="dm in ['','hybrid','linear']" :value="dm">[[ dm ]]</a-select-option>
+                    </a-select>
+        </a-form-item>
+        <a-form-item>
+            <template slot="label">
+                <a-tooltip>
+                    <template slot="title">
+                        <span>{{ i18n "pages.xray.rules.useComma" }}</span>
+                    </template>
+                    Source IPs <a-icon type="question-circle"></a-icon>
+                </a-tooltip>
+            </template>
+            <a-input v-model.trim="ruleModal.rule.source"></a-input>
+        </a-form-item>
+        <a-form-item>
+            <template slot="label">
+                <a-tooltip>
+                    <template slot="title">
+                        <span>{{ i18n "pages.xray.rules.useComma" }}</span>
+                    </template>
+                    Source Port <a-icon type="question-circle"></a-icon>
+                </a-tooltip>
+            </template>
+            <a-input v-model.trim="ruleModal.rule.sourcePort"></a-input>
+        </a-form-item>
+        <a-form-item label='{{ i18n "pages.xray.rule.network" }}'>
+            <a-select v-model="ruleModal.rule.network" :dropdown-class-name="themeSwitcher.currentTheme">
+                <a-select-option v-for="x in ['','tcp','udp','tcp,udp']" :value="x">[[ x ]]</a-select-option>
+            </a-select>
+        </a-form-item>
+        <a-form-item label='{{ i18n "pages.xray.rule.protocol" }}'>
+            <a-select v-model="ruleModal.rule.protocol" mode="multiple" :dropdown-class-name="themeSwitcher.currentTheme">
+                <a-select-option v-for="x in ['http','tls','bittorrent']" :value="x">[[ x ]]</a-select-option>
+            </a-select>
+        </a-form-item>
+        <a-form-item label='{{ i18n "pages.xray.rule.attributes" }}'>
+            <a-button size="small" style="margin-left: 10px" @click="ruleModal.rule.attrs.push(['', ''])">+</a-button>
+        </a-form-item>
+        <a-form-item :wrapper-col="{span: 24}">
+            <a-input-group compact v-for="(attr,index) in ruleModal.rule.attrs">
+                <a-input style="width: 50%" v-model="attr[0]" placeholder='{{ i18n "pages.inbounds.stream.general.name" }}'>
+                    <template slot="addonBefore" style="margin: 0;">[[ index+1 ]]</template>
+                </a-input>
+                <a-input style="width: 50%" v-model="attr[1]" placeholder='{{ i18n "pages.inbounds.stream.general.value" }}'>
+                    <a-button slot="addonAfter" size="small" @click="ruleModal.rule.attrs.splice(index,1)">-</a-button>
+                </a-input>
+            </a-input-group>
+        </a-form-item>
+        <a-form-item>
+            <template slot="label">
+                <a-tooltip>
+                    <template slot="title">
+                        <span>{{ i18n "pages.xray.rules.useComma" }}</span>
+                    </template>
+                    IP <a-icon type="question-circle"></a-icon>
+                </a-tooltip>
+            </template>
+            <a-input v-model.trim="ruleModal.rule.ip"></a-input>
+        </a-form-item>
+        <a-form-item>
+            <template slot="label">
+                <a-tooltip>
+                    <template slot="title">
+                        <span>{{ i18n "pages.xray.rules.useComma" }}</span>
+                    </template>
+                    Domain <a-icon type="question-circle"></a-icon>
+                </a-tooltip>
+            </template>
+            <a-input v-model.trim="ruleModal.rule.domain"></a-input>
+        </a-form-item>
+        <a-form-item>
+            <template slot="label">
+                <a-tooltip>
+                    <template slot="title">
+                        <span>{{ i18n "pages.xray.rules.useComma" }}</span>
+                    </template>
+                    User <a-icon type="question-circle"></a-icon>
+                </a-tooltip>
+            </template>
+            <a-input v-model.trim="ruleModal.rule.user"></a-input>
+        </a-form-item>
+        <a-form-item>
+            <template slot="label">
+                <a-tooltip>
+                    <template slot="title">
+                        <span>{{ i18n "pages.xray.rules.useComma" }}</span>
+                    </template>
+                    Port <a-icon type="question-circle"></a-icon>
+                </a-tooltip>
+            </template>
+            <a-input v-model.trim="ruleModal.rule.port"></a-input>
+        </a-form-item>
+        <a-form-item label='{{ i18n "pages.xray.rule.inboundTags" }}'>
+            <a-select v-model="ruleModal.rule.inboundTag" mode="multiple" :dropdown-class-name="themeSwitcher.currentTheme">
+                <a-select-option v-for="tag in ruleModal.inboundTags" :value="tag">[[ tag ]]</a-select-option>
+            </a-select>
+        </a-form-item>
+        <a-form-item label='{{ i18n "pages.xray.rule.outboundTag" }}'>
+            <a-select v-model="ruleModal.rule.outboundTag" :dropdown-class-name="themeSwitcher.currentTheme">
+                <a-select-option v-for="tag in ruleModal.outboundTags" :value="tag">[[ tag ]]</a-select-option>
+            </a-select>
+        </a-form-item>
+        <a-form-item>
+            <template slot="label">
+                <a-tooltip>
+                    <template slot="title">
+                        <span>{{ i18n "pages.xray.balancer.balancerDesc" }}</span>
+                    </template>
+                    Balancer Tag <a-icon type="question-circle"></a-icon>
+                </a-tooltip>
+            </template>
+            <a-select v-model="ruleModal.rule.balancerTag" :dropdown-class-name="themeSwitcher.currentTheme">
+                <a-select-option v-for="tag in ruleModal.balancerTags" :value="tag">[[ tag ]]</a-select-option>
+            </a-select>
+        </a-form-item>
+    </table>
+    </a-form>
+</a-modal>
+<script>
+
+    const ruleModal = {
+        title: '',
+        visible: false,
+        confirmLoading: false,
+        okText: '{{ i18n "confirm" }}',
+        isEdit: false,
+        confirm: null,
+        tag: '',
+        rule: {
+            type: "field",
+            domainMatcher: "",
+            domain: "",
+            ip: "",
+            port: "",
+            sourcePort: "",
+            network: "",
+            source: "",
+            user: "",
+            inboundTag: [],
+            protocol: [],
+            attrs: [],
+            outboundTag: "",
+            balancerTag: "",
+        },
+        inboundTags: [],
+        outboundTags: [],
+        users: [],
+        balancerTag: [],
+        ok() {
+            newRule = ruleModal.getResult();
+            ObjectUtil.execute(ruleModal.confirm, newRule, ruleModal.tag);
+        },
+        show({ title='', okText='{{ i18n "confirm" }}', rule, tag='', confirm=(rule, tag)=>{}, isEdit=false  }) {
+            this.title = title;
+            this.okText = okText;
+            this.confirm = confirm;
+            this.tag = tag || '';
+            this.visible = true;
+            if(isEdit) {
+                this.rule.domainMatcher = rule.domainMatcher;
+                this.rule.domain = rule.domain ? rule.domain.join(',') : [];
+                this.rule.ip = rule.ip ? rule.ip.join(',') : [];
+                this.rule.port = rule.port;
+                this.rule.sourcePort = rule.sourcePort;
+                this.rule.network = rule.network;
+                this.rule.source = rule.source ? rule.source.join(',') : [];
+                this.rule.user = rule.user ? rule.user.join(',') : [];
+                this.rule.inboundTag = rule.inboundTag;
+                this.rule.protocol = rule.protocol;
+                this.rule.attrs = rule.attrs ? Object.entries(rule.attrs) : [];
+                this.rule.outboundTag = rule.outboundTag;
+                this.rule.balancerTag = rule.balancerTag ? rule.balancerTag : "";
+            } else {
+                this.rule = {
+                    type: "field",
+                    domainMatcher: "",
+                    domain: "",
+                    ip: "",
+                    port: "",
+                    sourcePort: "",
+                    network: "",
+                    source: "",
+                    user: "",
+                    inboundTag: [],
+                    protocol: [],
+                    attrs: [],
+                    outboundTag: "",
+                    balancerTag: "",
+                }
+            }
+            this.isEdit = isEdit;
+            const page = typeof routingRulesApp !== 'undefined' ? routingRulesApp : app;
+            this.inboundTags = [...(page.inboundTags || [])];
+            if (page.outboundReverseTags) {
+                page.outboundReverseTags.forEach(tag => {
+                    if (tag && !this.inboundTags.includes(tag)) this.inboundTags.push(tag);
+                });
+            }
+            this.outboundTags = ["", ...(page.outboundTags || [])];
+            if (page.clientReverseTags) {
+                page.clientReverseTags.forEach(tag => {
+                    if (tag && !this.outboundTags.includes(tag)) {
+                        this.outboundTags.push(tag);
+                    }
+                });
+            }
+            const balancers = page.routingMeta?.balancers || page.templateSettings?.routing?.balancers || [];
+            this.balancerTags = ["", ...balancers.filter((o) => !ObjectUtil.isEmpty(o.tag)).map(obj => obj.tag)];
+        },
+        close() {
+            ruleModal.visible = false;
+            ruleModal.loading(false);
+        },
+        loading(loading=true) {
+            ruleModal.confirmLoading = loading;
+        },
+        getResult() {
+            value = ruleModal.rule;
+            rule = {};
+            newRule = {};
+            rule.type = "field";
+            rule.domainMatcher = value.domainMatcher;
+            rule.domain = value.domain.length>0 ? value.domain.split(',').map(s => s.trim()) : [];
+            rule.ip = value.ip.length>0 ? value.ip.split(',').map(s => s.trim()) : [];
+            rule.port = value.port;
+            rule.sourcePort = value.sourcePort;
+            rule.network = value.network;
+            rule.source = value.source.length>0 ? value.source.split(',').map(s => s.trim()) : [];
+            rule.user = value.user.length>0 ? value.user.split(',').map(s => s.trim()) : [];
+            rule.inboundTag = value.inboundTag;
+            rule.protocol = value.protocol;
+            rule.attrs = Object.fromEntries(value.attrs);
+            rule.outboundTag = value.outboundTag == "" ? undefined : value.outboundTag;
+            rule.balancerTag = value.balancerTag == "" ? undefined : value.balancerTag;
+
+            for (const [key, value] of Object.entries(rule)) {
+                if (
+                value !== null &&
+                value !== undefined &&
+                !(Array.isArray(value) && value.length === 0) &&
+                !(typeof value === 'object' && Object.keys(value).length === 0) &&
+                value !== ''
+                ) {
+                    newRule[key] = value;
+                }
+            }
+            return newRule;
+        }
+    };
+
+    new Vue({
+        delimiters: ['[[', ']]'],
+        el: '#rule-modal',
+        data: {
+            ruleModal: ruleModal,
+        }
+    });
+
+</script>
+{{end}}

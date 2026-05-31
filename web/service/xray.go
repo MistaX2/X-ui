@@ -3,10 +3,12 @@ package service
 import (
 	"encoding/json"
 	"errors"
+	"runtime"
 	"sync"
 
-	"x-ui/logger"
-	"x-ui/xray"
+	"github.com/alireza0/x-ui/logger"
+	"github.com/alireza0/x-ui/util/json_util"
+	"github.com/alireza0/x-ui/xray"
 
 	"go.uber.org/atomic"
 )
@@ -19,9 +21,11 @@ var (
 )
 
 type XrayService struct {
-	inboundService InboundService
-	settingService SettingService
-	xrayAPI        xray.XrayAPI
+	inboundService      InboundService
+	outboundService     OutboundService
+	routingRuleService  RoutingRuleService
+	settingService      SettingService
+	xrayAPI             xray.XrayAPI
 }
 
 func (s *XrayService) IsXrayRunning() bool {
@@ -32,7 +36,19 @@ func (s *XrayService) GetXrayErr() error {
 	if p == nil {
 		return nil
 	}
-	return p.GetErr()
+
+	err := p.GetErr()
+	if err == nil {
+		return nil
+	}
+
+	if runtime.GOOS == "windows" && err.Error() == "exit status 1" {
+		// exit status 1 on Windows means that Xray process was killed
+		// as we kill process to stop in on Windows, this is not an error
+		return nil
+	}
+
+	return err
 }
 
 func (s *XrayService) GetXrayResult() string {
@@ -45,7 +61,15 @@ func (s *XrayService) GetXrayResult() string {
 	if p == nil {
 		return ""
 	}
+
 	result = p.GetResult()
+
+	if runtime.GOOS == "windows" && result == "exit status 1" {
+		// exit status 1 on Windows means that Xray process was killed
+		// as we kill process to stop in on Windows, this is not an error
+		return ""
+	}
+
 	return result
 }
 
@@ -114,10 +138,10 @@ func (s *XrayService) GetXrayConfig() (*xray.Config, error) {
 					}
 				}
 				for key := range c {
-					if key != "email" && key != "id" && key != "password" && key != "flow" && key != "method" {
+					if key != "email" && key != "id" && key != "password" && key != "flow" && key != "method" && key != "auth" && key != "reverse" {
 						delete(c, key)
 					}
-					if c["flow"] == "xtls-rprx-vision-udp443" {
+					if flow, ok := c["flow"].(string); ok && flow == "xtls-rprx-vision-udp443" {
 						c["flow"] = "xtls-rprx-vision"
 					}
 				}
@@ -161,7 +185,42 @@ func (s *XrayService) GetXrayConfig() (*xray.Config, error) {
 		inboundConfig := inbound.GenXrayInboundConfig()
 		xrayConfig.InboundConfigs = append(xrayConfig.InboundConfigs, *inboundConfig)
 	}
+
+	xrayConfig.OutboundConfigs = []xray.OutboundConfig{}
+
+	outbounds, err := s.outboundService.GetAllOutbounds()
+	if err != nil {
+		return nil, err
+	}
+	for _, outbound := range outbounds {
+		outboundConfig := outbound.GenXrayOutboundConfig()
+		xrayConfig.OutboundConfigs = append(xrayConfig.OutboundConfigs, *outboundConfig)
+	}
+
+	mergedRouting, err := s.mergeRoutingRules(xrayConfig.RouterConfig)
+	if err != nil {
+		return nil, err
+	}
+	xrayConfig.RouterConfig = mergedRouting
+
 	return xrayConfig, nil
+}
+
+func (s *XrayService) mergeRoutingRules(routerConfig json_util.RawMessage) (json_util.RawMessage, error) {
+	routing := map[string]interface{}{}
+	if len(routerConfig) > 0 {
+		json.Unmarshal(routerConfig, &routing)
+	}
+	ruleList, err := s.routingRuleService.BuildRulesArray()
+	if err != nil {
+		return nil, err
+	}
+	routing["rules"] = ruleList
+	b, err := json.Marshal(routing)
+	if err != nil {
+		return nil, err
+	}
+	return json_util.RawMessage(b), nil
 }
 
 func (s *XrayService) GetXrayTraffic() ([]*xray.Traffic, []*xray.ClientTraffic, error) {

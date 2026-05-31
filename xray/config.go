@@ -3,7 +3,7 @@ package xray
 import (
 	"bytes"
 
-	"x-ui/util/json_util"
+	"github.com/alireza0/x-ui/util/json_util"
 )
 
 type Config struct {
@@ -11,15 +11,16 @@ type Config struct {
 	RouterConfig     json_util.RawMessage `json:"routing"`
 	DNSConfig        json_util.RawMessage `json:"dns"`
 	InboundConfigs   []InboundConfig      `json:"inbounds"`
-	OutboundConfigs  json_util.RawMessage `json:"outbounds"`
+	OutboundConfigs  []OutboundConfig     `json:"outbounds"`
 	Transport        json_util.RawMessage `json:"transport"`
 	Policy           json_util.RawMessage `json:"policy"`
 	API              json_util.RawMessage `json:"api"`
 	Stats            json_util.RawMessage `json:"stats"`
-	Reverse          json_util.RawMessage `json:"reverse"`
 	FakeDNS          json_util.RawMessage `json:"fakedns"`
 	Observatory      json_util.RawMessage `json:"observatory"`
 	BurstObservatory json_util.RawMessage `json:"burstObservatory"`
+	Metrics          json_util.RawMessage `json:"metrics,omitEmpty"`
+	GeoData          json_util.RawMessage `json:"geodata,omitempty"`
 }
 
 func (c *Config) Equals(other *Config) bool {
@@ -40,8 +41,13 @@ func (c *Config) Equals(other *Config) bool {
 	if !bytes.Equal(c.DNSConfig, other.DNSConfig) {
 		return false
 	}
-	if !bytes.Equal(c.OutboundConfigs, other.OutboundConfigs) {
+	if len(c.OutboundConfigs) != len(other.OutboundConfigs) {
 		return false
+	}
+	for i, outbound := range c.OutboundConfigs {
+		if !outbound.Equals(&other.OutboundConfigs[i]) {
+			return false
+		}
 	}
 	if !bytes.Equal(c.Transport, other.Transport) {
 		return false
@@ -55,10 +61,19 @@ func (c *Config) Equals(other *Config) bool {
 	if !bytes.Equal(c.Stats, other.Stats) {
 		return false
 	}
-	if !bytes.Equal(c.Reverse, other.Reverse) {
+	if !bytes.Equal(c.FakeDNS, other.FakeDNS) {
 		return false
 	}
-	if !bytes.Equal(c.FakeDNS, other.FakeDNS) {
+	if !bytes.Equal(c.Observatory, other.Observatory) {
+		return false
+	}
+	if !bytes.Equal(c.BurstObservatory, other.BurstObservatory) {
+		return false
+	}
+	if !bytes.Equal(c.Metrics, other.Metrics) {
+		return false
+	}
+	if !bytes.Equal(c.GeoData, other.GeoData) {
 		return false
 	}
 	return true

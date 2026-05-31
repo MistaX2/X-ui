@@ -134,21 +134,22 @@
                                             </a-col>
                                         </a-row>
                                     </a-list-item>
-                                    <a-row style="padding: 20px">
-                                        <a-col :lg="24" :xl="12">
-                                            <a-list-item-meta 
-                                                title='{{ i18n "pages.xray.RoutingStrategy" }}'
-                                                description='{{ i18n "pages.xray.RoutingStrategyDesc" }}'/>
-                                        </a-col>
-                                        <a-col :lg="24" :xl="12">
-                                            <a-select
-                                                v-model="routingStrategy"
-                                                style="width: 100%" :dropdown-class-name="themeSwitcher.currentTheme">
-                                                <a-select-option v-for="s in routingDomainStrategies" :value="s">[[ s ]]</a-select-option>
-                                            </a-select>
-                                        </a-col>
-                                    </a-row>
-                                </a-list-item>
+                                    <a-list-item>
+                                        <a-row style="padding: 20px">
+                                            <a-col :lg="24" :xl="12">
+                                                <a-list-item-meta
+                                                    title='{{ i18n "pages.xray.RoutingStrategy" }}'
+                                                    description='{{ i18n "pages.xray.RoutingStrategyDesc" }}'/>
+                                            </a-col>
+                                            <a-col :lg="24" :xl="12">
+                                                <a-select
+                                                    v-model="routingStrategy"
+                                                    style="width: 100%" :dropdown-class-name="themeSwitcher.currentTheme">
+                                                    <a-select-option v-for="s in routingDomainStrategies" :value="s">[[ s ]]</a-select-option>
+                                                </a-select>
+                                            </a-col>
+                                        </a-row>
+                                    </a-list-item>
                                 </a-collapse-panel>
                                 <a-collapse-panel header='{{ i18n "pages.xray.logConfigs" }}'>
                                     <a-row :xs="24" :sm="24" :lg="12">
@@ -233,158 +234,7 @@
                                             </template>
                                         </a-alert>
                                     </a-row>
-                                    <setting-list-item type="switch" title='{{ i18n "pages.xray.Torrent"}}' desc='{{ i18n "pages.xray.TorrentDesc"}}' v-model="torrentSettings"></setting-list-item>
                                     <setting-list-item type="switch" title='{{ i18n "pages.xray.Family"}}' desc='{{ i18n "pages.xray.FamilyDesc"}}' v-model="familyProtectSettings"></setting-list-item>
-                                </a-collapse-panel>
-                                <a-collapse-panel header='{{ i18n "pages.xray.basicRouting"}}'>
-                                    <a-row :xs="24" :sm="24" :lg="12">
-                                        <a-alert type="warning" style="text-align: center;">
-                                            <template slot="message">
-                                                <a-icon type="exclamation-circle" theme="filled" style="color: #FFA031"></a-icon>
-                                                {{ i18n "pages.xray.blockConnectionsConfigsDesc" }}
-                                            </template>
-                                        </a-alert>
-                                    </a-row>
-                                    <a-list-item>
-                                        <a-row style="padding: 0 20px">
-                                            <a-col :lg="24" :xl="12">
-                                                <a-list-item-meta 
-                                                    title='{{ i18n "pages.xray.blockips" }}'/>
-                                            </a-col>
-                                            <a-col :lg="24" :xl="12">
-                                                <template>
-                                                    <a-select mode="tags" v-model="blockedIPs" style="width: 100%"
-                                                    :dropdown-class-name="themeSwitcher.currentTheme">
-                                                        <a-select-option :value="p.value" :label="p.label"
-                                                            v-for="p in settingsData.IPsOptions"> [[ p.label ]]
-                                                        </a-select-option>
-                                                    </a-select>
-                                                </template>
-                                            </a-col>
-                                        </a-row>
-                                    </a-list-item>
-                                    <a-list-item>
-                                        <a-row style="padding: 0 20px">
-                                            <a-col :lg="24" :xl="12">
-                                                <a-list-item-meta 
-                                                    title='{{ i18n "pages.xray.blockdomains" }}'/>
-                                            </a-col>
-                                            <a-col :lg="24" :xl="12">
-                                                <template>
-                                                    <a-select mode="tags" style="width: 100%"
-                                                    v-model="blockedDomains"
-                                                    :dropdown-class-name="themeSwitcher.currentTheme">
-                                                        <a-select-option :value="p.value" :label="p.label"
-                                                            v-for="p in settingsData.DomainsOptions"> [[ p.label ]]
-                                                        </a-select-option>
-                                                    </a-select>
-                                                </template>
-                                            </a-col>
-                                        </a-row>
-                                    </a-list-item>
-                                    <a-row :xs="24" :sm="24" :lg="12">
-                                        <a-alert type="warning" style="text-align: center;">
-                                            <template slot="message">
-                                                <a-icon type="exclamation-circle" theme="filled" style="color: #FFA031"></a-icon>
-                                                {{ i18n "pages.xray.directConnectionsConfigsDesc" }}
-                                            </template>
-                                        </a-alert>
-                                    </a-row>
-                                    <a-list-item>
-                                        <a-row style="padding: 0 20px">
-                                            <a-col :lg="24" :xl="12">
-                                                <a-list-item-meta 
-                                                    title='{{ i18n "pages.xray.directips" }}'/>
-                                            </a-col>
-                                            <a-col :lg="24" :xl="12">
-                                                <template>
-                                                    <a-select mode="tags" style="width: 100%"
-                                                    v-model="directIPs"
-                                                    :dropdown-class-name="themeSwitcher.currentTheme">
-                                                        <a-select-option :value="p.value" :label="p.label"
-                                                            v-for="p in settingsData.IPsOptions"> [[ p.label ]]
-                                                        </a-select-option>
-                                                    </a-select>
-                                                </template>
-                                            </a-col>
-                                        </a-row>
-                                    </a-list-item>
-                                    <a-list-item>
-                                        <a-row style="padding: 0 20px">
-                                            <a-col :lg="24" :xl="12">
-                                                <a-list-item-meta 
-                                                    title='{{ i18n "pages.xray.directdomains" }}'/>
-                                            </a-col>
-                                            <a-col :lg="24" :xl="12">
-                                                <template>
-                                                    <a-select mode="tags" style="width: 100%"
-                                                    v-model="directDomains"
-                                                    :dropdown-class-name="themeSwitcher.currentTheme">
-                                                        <a-select-option :value="p.value" :label="p.label"
-                                                            v-for="p in settingsData.DomainsOptions"> [[ p.label ]]
-                                                        </a-select-option>
-                                                    </a-select>
-                                                </template>
-                                            </a-col>
-                                        </a-row>
-                                    </a-list-item>
-                                    <a-row :xs="24" :sm="24" :lg="12">
-                                        <a-alert type="warning" style="text-align: center;">
-                                            <template slot="message">
-                                                <a-icon type="exclamation-circle" theme="filled" style="color: #FFA031"></a-icon>
-                                                {{ i18n "pages.xray.ipv4RoutingDesc" }}
-                                            </template>
-                                        </a-alert>
-                                    </a-row>
-                                    <a-list-item>
-                                        <a-row style="padding: 0 20px">
-                                            <a-col :lg="24" :xl="12">
-                                                <a-list-item-meta 
-                                                    title='{{ i18n "pages.xray.ipv4Routing" }}'/>
-                                            </a-col>
-                                            <a-col :lg="24" :xl="12">
-                                                <template>
-                                                    <a-select mode="tags" style="width: 100%"
-                                                    v-model="ipv4Domains"
-                                                    :dropdown-class-name="themeSwitcher.currentTheme">
-                                                        <a-select-option :value="p.value" :label="p.label"
-                                                            v-for="p in settingsData.ServicesOptions"> [[ p.label ]]
-                                                        </a-select-option>
-                                                    </a-select>
-                                                </template>
-                                            </a-col>
-                                        </a-row>
-                                    </a-list-item>
-                                    <a-row :xs="24" :sm="24" :lg="12">
-                                        <a-alert type="warning" style="text-align: center;">
-                                            <template slot="message">
-                                                <a-icon type="exclamation-circle" theme="filled" style="color: #FFA031"></a-icon>
-                                                {{ i18n "pages.xray.warpRoutingDesc" }}
-                                            </template>
-                                        </a-alert>
-                                    </a-row>
-                                    <template v-if="WarpExist">
-                                        <a-list-item>
-                                            <a-row style="padding: 0 20px">
-                                                <a-col :lg="24" :xl="12">
-                                                    <a-list-item-meta 
-                                                        title='{{ i18n "pages.xray.warpRouting" }}'/>
-                                                </a-col>
-                                                <a-col :lg="24" :xl="12">
-                                                    <template>
-                                                        <a-select mode="tags" style="width: 100%"
-                                                        v-model="warpDomains"
-                                                        :dropdown-class-name="themeSwitcher.currentTheme">
-                                                            <a-select-option :value="p.value" :label="p.label"
-                                                                v-for="p in settingsData.ServicesOptions"> [[ p.label ]]
-                                                            </a-select-option>
-                                                        </a-select>
-                                                    </template>
-                                                </a-col>
-                                            </a-row>
-                                        </a-list-item>
-                                    </template>
-                                    <a-button v-else type="primary" icon="cloud" style="margin: 15px 20px;" @click="showWarp()">WARP</a-button>
                                 </a-collapse-panel>
                                 <a-collapse-panel header='{{ i18n "pages.settings.resetDefaultConfig"}}'>
                                     <a-space direction="horizontal" style="padding: 0 20px">
@@ -392,196 +242,6 @@
                                     </a-space>
                                 </a-collapse-panel>
                             </a-collapse>
-                        </a-tab-pane>
-                        <a-tab-pane key="tpl-routing" tab='{{ i18n "pages.xray.Routings"}}' style="padding-top: 20px;">
-                            <a-button type="primary" icon="plus" @click="addRule">{{ i18n "pages.xray.rules.add" }}</a-button>
-                            <a-table :columns="isMobile ? rulesMobileColumns : rulesColumns" bordered
-                                :row-key="r => r.key"
-                                :data-source="routingRuleData"
-                                :scroll="isMobile ? {} : { x: 1000 }"
-                                :pagination="false"
-                                :indent-size="0"
-                                :style="isMobile ? 'padding: 5px 0' : 'margin-top: 10px;'">
-                                <template slot="action" slot-scope="text, rule, index">
-                                    [[ index+1 ]]
-                                    <a-dropdown :trigger="['click']">
-                                        <a-icon @click="e => e.preventDefault()" type="more" style="font-size: 16px; text-decoration: bold;"></a-icon>
-                                        <a-menu slot="overlay" :theme="themeSwitcher.currentTheme">
-                                            <a-menu-item v-if="index>0" @click="replaceRule(index,0)">
-                                                <a-icon type="vertical-align-top"></a-icon>
-                                                {{ i18n "pages.xray.rules.first"}}
-                                            </a-menu-item>
-                                            <a-menu-item v-if="index>0" @click="replaceRule(index,index-1)">
-                                                <a-icon type="arrow-up"></a-icon>
-                                                {{ i18n "pages.xray.rules.up"}}
-                                            </a-menu-item>
-                                            <a-menu-item v-if="index<routingRuleData.length-1" @click="replaceRule(index,index+1)">
-                                                <a-icon type="arrow-down"></a-icon>
-                                                {{ i18n "pages.xray.rules.down"}}
-                                            </a-menu-item>
-                                            <a-menu-item v-if="index<routingRuleData.length-1" @click="replaceRule(index,routingRuleData.length-1)">
-                                                <a-icon type="vertical-align-bottom"></a-icon>
-                                                {{ i18n "pages.xray.rules.last"}}
-                                            </a-menu-item>
-                                            <a-menu-item @click="editRule(index)">
-                                                <a-icon type="edit"></a-icon>
-                                                {{ i18n "edit" }}
-                                            </a-menu-item>
-                                            <a-menu-item @click="deleteRule(index)">
-                                                <span style="color: #FF4D4F">
-                                                    <a-icon type="delete"></a-icon> {{ i18n "delete"}}
-                                                </span>
-                                            </a-menu-item>
-                                        </a-menu>
-                                    </a-dropdown>
-                                </template>
-                                <template slot="inbound" slot-scope="text, rule, index">
-                                    <a-popover :overlay-class-name="themeSwitcher.currentTheme">
-                                        <template slot="content">
-                                            <p v-if="rule.inboundTag">Inbound Tag: [[ rule.inboundTag ]]</p>
-                                            <p v-if="rule.user">User email: [[ rule.user ]]</p>
-                                        </template>
-                                        [[ [rule.inboundTag,rule.user].join('\n') ]]
-                                    </a-popover>
-                                </template>
-                                <template slot="outbound" slot-scope="text, rule, index">
-                                    <a-popover :overlay-class-name="themeSwitcher.currentTheme">
-                                        <template slot="content">
-                                            <p v-if="rule.outboundTag">Outbound Tag: [[ rule.outboundTag ]]</p>
-                                        </template>
-                                        [[ rule.outboundTag ]]
-                                    </a-popover>
-                                </template>
-                                <template slot="balancer" slot-scope="text, rule, index">
-                                    <a-popover :overlay-class-name="themeSwitcher.currentTheme">
-                                        <template slot="content">
-                                            <p v-if="rule.balancerTag">Balancer Tag: [[ rule.balancerTag ]]</p>
-                                        </template>
-                                        [[ rule.balancerTag ]]
-                                    </a-popover>
-                                </template>
-                                <template slot="info" slot-scope="text, rule, index">
-                                    <a-popover placement="bottomRight"
-                                        v-if="(rule.source+rule.sourcePort+rule.network+rule.protocol+rule.attrs+rule.ip+rule.domain+rule.port).length>0"
-                                        :overlay-class-name="themeSwitcher.currentTheme" trigger="click">
-                                        <template slot="content">
-                                            <table cellpadding="2" style="max-width: 300px;">
-                                                <tr v-if="rule.source">
-                                                    <td>Source</td>
-                                                    <td><a-tag color="blue" v-for="r in rule.source.split(',')">[[ r ]]</a-tag></td>
-                                                </tr>
-                                                <tr v-if="rule.sourcePort">
-                                                    <td>Source Port</td>
-                                                    <td><a-tag color="green" v-for="r in rule.sourcePort.split(',')">[[ r ]]</a-tag></td>
-                                                </tr>
-                                                <tr v-if="rule.network">
-                                                    <td>Network</td>
-                                                    <td><a-tag color="blue" v-for="r in rule.network.split(',')">[[ r ]]</a-tag></td>
-                                                </tr>
-                                                <tr v-if="rule.protocol">
-                                                    <td>Protocol</td>
-                                                    <td><a-tag color="green" v-for="r in rule.protocol.split(',')">[[ r ]]</a-tag></td>
-                                                </tr>
-                                                <tr v-if="rule.attrs">
-                                                    <td>Attrs</td>
-                                                    <td><a-tag color="blue" v-for="r in rule.attrs.split(',')">[[ r ]]</a-tag></td>
-                                                </tr>
-                                                <tr v-if="rule.ip">
-                                                    <td>IP</td>
-                                                    <td><a-tag color="green" v-for="r in rule.ip.split(',')">[[ r ]]</a-tag></td>
-                                                </tr>
-                                                <tr v-if="rule.domain">
-                                                    <td>Domain</td>
-                                                    <td><a-tag color="blue" v-for="r in rule.domain.split(',')">[[ r ]]</a-tag></td>
-                                                </tr>
-                                                <tr v-if="rule.port">
-                                                    <td>Port</td>
-                                                    <td><a-tag color="green" v-for="r in rule.port.split(',')">[[ r ]]</a-tag></td>
-                                                </tr>
-                                                <tr v-if="rule.balancerTag">
-                                                    <td>Balancer Tag</td>
-                                                    <td><a-tag color="blue">[[ rule.balancerTag ]]</a-tag></td>
-                                                </tr>
-                                            </table>
-                                        </template>
-                                        <a-button shape="round" size="small" style="font-size: 14px; padding: 0 10px;">
-                                            <a-icon type="info"></a-icon>
-                                        </a-button>
-                                    </a-popover>
-                                </template>
-                            </a-table>
-                        </a-tab-pane>
-                        <a-tab-pane key="tpl-outbound" tab='{{ i18n "pages.xray.Outbounds"}}' style="padding-top: 20px;" force-render="true">
-                            <a-button type="primary" icon="plus" @click="addOutbound()" style="margin-bottom: 10px;">{{ i18n "pages.xray.outbound.addOutbound" }}</a-button>
-                            <a-button type="primary" icon="cloud" @click="showWarp()" style="margin-bottom: 10px;">WARP</a-button>
-                            <a-table :columns="outboundColumns" bordered
-                            :row-key="r => r.key"
-                            :data-source="outboundData"
-                            :scroll="isMobile ? {} : { x: 200 }"
-                            :pagination="false"
-                            :indent-size="0"
-                            :style="isMobile ? 'padding: 5px 5px' : 'margin-right: 1px;'">
-                                <template slot="action" slot-scope="text, outbound, index">
-                                    [[ index+1 ]]
-                                    <a-dropdown :trigger="['click']">
-                                        <a-icon @click="e => e.preventDefault()" type="more" style="font-size: 16px; text-decoration: bold;"></a-icon>
-                                        <a-menu slot="overlay" :theme="themeSwitcher.currentTheme">
-                                            <a-menu-item v-if="index>0" @click="setFirstOutbound(index)">
-                                                <a-icon type="vertical-align-top"></a-icon>
-                                                {{ i18n "pages.xray.rules.first"}}
-                                            </a-menu-item>
-                                            <a-menu-item @click="editOutbound(index)">
-                                                <a-icon type="edit"></a-icon>
-                                                {{ i18n "edit" }}
-                                            </a-menu-item>
-                                            <a-menu-item @click="deleteOutbound(index)">
-                                                <span style="color: #FF4D4F">
-                                                    <a-icon type="delete"></a-icon> {{ i18n "delete"}}
-                                                </span>
-                                            </a-menu-item>
-                                        </a-menu>
-                                    </a-dropdown>
-                                </template>
-                                <template slot="address" slot-scope="text, outbound, index">
-                                    <p style="margin: 0 5px;" v-for="addr in findOutboundAddress(outbound)">[[ addr ]]</p>
-                                </template>
-                                <template slot="protocol" slot-scope="text, outbound, index">
-                                    <a-tag style="margin:0;" color="purple">[[ outbound.protocol ]]</a-tag>
-                                    <template v-if="[Protocols.VMess, Protocols.VLESS, Protocols.Trojan, Protocols.Shadowsocks].includes(outbound.protocol)">
-                                        <a-tag style="margin:0;" color="blue">[[ outbound.streamSettings.network ]]</a-tag>
-                                        <a-tag style="margin:0;" v-if="outbound.streamSettings.security=='tls'" color="green">tls</a-tag>
-                                        <a-tag style="margin:0;" v-if="outbound.streamSettings.security=='reality'" color="green">reality</a-tag>
-                                    </template>
-                                </template>
-                            </a-table>
-                        </a-tab-pane>
-                        <a-tab-pane key="tpl-reverse" tab='{{ i18n "pages.xray.outbound.reverse"}}' style="padding-top: 20px;" force-render="true">
-                            <a-button type="primary" icon="plus" @click="addReverse()" style="margin-bottom: 10px;">{{ i18n "pages.xray.outbound.addReverse" }}</a-button>
-                            <a-table :columns="reverseColumns" bordered v-if="reverseData.length>0"
-                            :row-key="r => r.key"
-                            :data-source="reverseData"
-                            :scroll="isMobile ? {} : { x: 200 }"
-                            :pagination="false"
-                            :indent-size="0"
-                            :style="isMobile ? 'padding: 5px 0' : 'margin-left: 1px;'">
-                                <template slot="action" slot-scope="text, reverse, index">
-                                    [[ index+1 ]]
-                                    <a-dropdown :trigger="['click']">
-                                        <a-icon @click="e => e.preventDefault()" type="more" style="font-size: 16px; text-decoration: bold;"></a-icon>
-                                        <a-menu slot="overlay" :theme="themeSwitcher.currentTheme">
-                                            <a-menu-item @click="editReverse(index)">
-                                                <a-icon type="edit"></a-icon>
-                                                {{ i18n "edit" }}
-                                            </a-menu-item>
-                                            <a-menu-item @click="deleteReverse(index)">
-                                                <span style="color: #FF4D4F">
-                                                    <a-icon type="delete"></a-icon> {{ i18n "delete"}}
-                                                </span>
-                                            </a-menu-item>
-                                        </a-menu>
-                                    </a-dropdown>
-                                </template>
-                            </a-table>
                         </a-tab-pane>
                         <a-tab-pane key="tpl-balancer" tab='{{ i18n "pages.xray.Balancers"}}' style="padding-top: 20px;" force-render="true">
                             <a-button type="primary" icon="plus" @click="addBalancer()" style="margin-bottom: 10px;">{{ i18n "pages.xray.balancer.addBalancer"}}</a-button>
@@ -718,13 +378,57 @@
                                 </a-table>
                             </template>
                         </a-tab-pane>
+                        <a-tab-pane key="tpl-geodata" tab='{{ i18n "pages.xray.geodata.title"}}' style="padding-top: 20px;" force-render="true">
+                            <setting-list-item type="switch" title='{{ i18n "pages.xray.geodata.enable" }}' desc='{{ i18n "pages.xray.geodata.enableDesc" }}' v-model="enableGeoData"></setting-list-item>
+                            <template v-if="enableGeoData">
+                                <setting-list-item type="text" title='{{ i18n "pages.xray.geodata.cron" }}' desc='{{ i18n "pages.xray.geodata.cronDesc" }}' v-model="geodataCron"></setting-list-item>
+                                <a-list-item>
+                                    <a-row style="padding: 20px">
+                                        <a-col :lg="24" :xl="12">
+                                            <a-list-item-meta title='{{ i18n "pages.xray.geodata.outbound" }}' description='{{ i18n "pages.xray.geodata.outboundDesc" }}' />
+                                        </a-col>
+                                        <a-col :lg="24" :xl="12">
+                                            <a-select v-model="geodataOutbound" allow-clear style="width: 100%"
+                                                :dropdown-class-name="themeSwitcher.currentTheme">
+                                                <a-select-option value="">Routing</a-select-option>
+                                                <a-select-option v-for="tag in geodataOutboundTags" :value="tag">[[ tag ]]</a-select-option>
+                                            </a-select>
+                                        </a-col>
+                                    </a-row>
+                                </a-list-item>
+                                <a-button type="primary" icon="plus" @click="addGeoDataAsset()" style="margin-bottom: 10px;">{{ i18n "pages.xray.geodata.addAsset" }}</a-button>
+                                <a-table :columns="geodataAssetColumns" bordered v-if="geodataAssets.length>0"
+                                :row-key="(r, index) => index"
+                                :data-source="geodataAssets"
+                                :scroll="isMobile ? {} : { x: 200 }"
+                                :pagination="false"
+                                :indent-size="0"
+                                :style="isMobile ? 'padding: 5px 0' : 'margin-left: 1px;'">
+                                    <template slot="action" slot-scope="text, asset, index">
+                                        [[ index+1 ]]
+                                        <a-dropdown :trigger="['click']">
+                                            <a-icon @click="e => e.preventDefault()" type="more" style="font-size: 16px; text-decoration: bold;"></a-icon>
+                                            <a-menu slot="overlay" :theme="themeSwitcher.currentTheme">
+                                                <a-menu-item @click="editGeoDataAsset(index)">
+                                                    <a-icon type="edit"></a-icon>
+                                                    {{ i18n "edit" }}
+                                                </a-menu-item>
+                                                <a-menu-item @click="deleteGeoDataAsset(index)">
+                                                    <span style="color: #FF4D4F">
+                                                        <a-icon type="delete"></a-icon> {{ i18n "delete"}}
+                                                    </span>
+                                                </a-menu-item>
+                                            </a-menu>
+                                        </a-dropdown>
+                                    </template>
+                                </a-table>
+                            </template>
+                        </a-tab-pane>
                         <a-tab-pane key="tpl-advanced" tab='{{ i18n "pages.xray.advancedTemplate"}}' style="padding-top: 20px;" force-render="true">
                             <a-list-item-meta title='{{ i18n "pages.xray.Template"}}' description='{{ i18n "pages.xray.TemplateDesc"}}'></a-list-item-meta>
                             <a-radio-group v-model="advSettings" @change="changeCode" button-style="solid" style="margin: 10px 0;" :size="isMobile ? 'small' : ''">
                                 <a-radio-button value="xraySetting">{{ i18n "pages.xray.completeTemplate"}}</a-radio-button>
                                 <a-radio-button value="inboundSettings">{{ i18n "pages.xray.Inbounds" }}</a-radio-button>
-                                <a-radio-button value="outboundSettings">{{ i18n "pages.xray.Outbounds" }}</a-radio-button>
-                                <a-radio-button value="routingRuleSettings">{{ i18n "pages.xray.Routings" }}</a-radio-button>
                             </a-radio-group>
                             <textarea style="position:absolute; left: -800px;" id="xraySetting"></textarea>
                         </a-tab-pane>
@@ -737,53 +441,17 @@
 {{template "js" .}}
 {{template "component/themeSwitcher" .}}
 {{template "component/setting"}}
-{{template "ruleModal"}}
-{{template "outModal"}}
-{{template "reverseModal"}}
 {{template "balancerModal"}}
 {{template "dnsModal"}}
 {{template "fakednsModal"}}
+{{template "geodataAssetModal"}}
 {{template "warpModal"}}
 <script>
-    const rulesColumns = [
-        { title: "#", align: 'center', width: 15, scopedSlots: { customRender: 'action' } },
-        { title: '{{ i18n "pages.xray.rules.source"}}', children: [
-            { title: 'IP', dataIndex: "source", align: 'center', width: 20, ellipsis: true },
-            { title: 'Port', dataIndex: 'sourcePort', align: 'center', width: 10, ellipsis: true } ]},
-        { title: '{{ i18n "pages.inbounds.network"}}', children: [
-            { title: 'L4', dataIndex: 'network', align: 'center', width: 10 },
-            { title: 'Protocol', dataIndex: 'protocol', align: 'center', width: 10, ellipsis: true },
-            { title: 'Attrs', dataIndex: 'attrs', align: 'center', width: 20, ellipsis: true } ]}, 
-        { title: '{{ i18n "pages.xray.rules.dest"}}', children: [
-            { title: 'IP', dataIndex: 'ip', align: 'center', width: 20, ellipsis: true },
-            { title: 'Domain', dataIndex: 'domain', align: 'center', width: 20, ellipsis: true },
-            { title: 'Port', dataIndex: 'port', align: 'center', width: 10, ellipsis: true }]},
-        { title: '{{ i18n "pages.xray.rules.inbound"}}', children: [
-            { title: 'Inbound Tag', dataIndex: 'inboundTag', align: 'center', width: 20, ellipsis: true },
-            { title: 'Client Email', dataIndex: 'user', align: 'center', width: 20, ellipsis: true }]},
-        { title: '{{ i18n "pages.xray.rules.outbound"}}', dataIndex: 'outboundTag', align: 'center', width: 20 },
-        { title: '{{ i18n "pages.xray.rules.balancer"}}', dataIndex: 'balancerTag', align: 'center', width: 15 },
-    ];
-
-    const rulesMobileColumns = [
-        { title: "#", align: 'center', width: 20, scopedSlots: { customRender: 'action' } },
-        { title: '{{ i18n "pages.xray.rules.inbound"}}', align: 'center', width: 50, ellipsis: true, scopedSlots: { customRender: 'inbound' } },
-        { title: '{{ i18n "pages.xray.rules.outbound"}}', align: 'center', width: 50, ellipsis: true, scopedSlots: { customRender: 'outbound' } },
-        { title: '{{ i18n "pages.xray.rules.info"}}', align: 'center', width: 50, ellipsis: true, scopedSlots: { customRender: 'info' } },
-    ];
-
     const outboundColumns = [
         { title: "#", align: 'center', width: 20, scopedSlots: { customRender: 'action' } },
         { title: '{{ i18n "pages.xray.outbound.tag"}}', dataIndex: 'tag', align: 'center', width: 50 },
         { title: '{{ i18n "protocol"}}', align: 'center', width: 50, scopedSlots: { customRender: 'protocol' }  },
         { title: '{{ i18n "pages.xray.outbound.address"}}', align: 'center', width: 50, scopedSlots: { customRender: 'address' } },
-    ];
-
-    const reverseColumns = [
-        { title: "#", align: 'center', width: 20, scopedSlots: { customRender: 'action' } },
-        { title: '{{ i18n "pages.xray.outbound.type"}}', dataIndex: 'type', align: 'center', width: 50 },
-        { title: '{{ i18n "pages.xray.outbound.tag"}}', dataIndex: 'tag', align: 'center', width: 50 },
-        { title: '{{ i18n "pages.xray.outbound.domain"}}', dataIndex: 'domain', align: 'center', width: 50 },
     ];
 
     const balancerColumns = [
@@ -806,6 +474,12 @@
         { title: '{{ i18n "pages.xray.fakedns.poolSize"}}', dataIndex: 'poolSize', align: 'center', width: 50 },
     ];
 
+    const geodataAssetColumns = [
+        { title: "#", align: 'center', width: 20, scopedSlots: { customRender: 'action' } },
+        { title: '{{ i18n "pages.xray.geodata.url"}}', dataIndex: 'url', align: 'center', width: 80, ellipsis: true },
+        { title: '{{ i18n "pages.xray.geodata.file"}}', dataIndex: 'file', align: 'center', width: 40 },
+    ];
+
     const app = new Vue({
         delimiters: ['[[', ']]'],
         el: '#app',
@@ -817,6 +491,10 @@
             oldXraySetting: '',
             xraySetting: '',
             inboundTags: [],
+            clientReverseTags: [],
+            outboundTags: [],
+            outboundReverseTags: [],
+            loadedOutbounds: [],
             saveBtnDisable: true,
             restartResult: '',
             showAlert: false,
@@ -856,7 +534,7 @@
                 tag: "direct",
                 protocol: "freedom"
             },
-            routingDomainStrategies: ["AsIs", "IPIfNonMatch", "IPOnDemand"],
+            routingDomainStrategies: ["AsIs", "IpIfNonMatch", "IpOnDemand"],
             log: {
                 loglevel: ["none", "debug", "info", "warning", "error"],
                 access: ["none", "./access.log"],
@@ -905,14 +583,14 @@
             },
             defaultObservatory: {
                 subjectSelector: [],
-                probeURL: "http://www.google.com/gen_204",
+                probeURL: "http://www.google.com/generate_204",
                 probeInterval: "10m",
                 enableConcurrency: true
             },
             defaultBurstObservatory: {
                 subjectSelector: [],
                 pingConfig: {
-                    destination: "http://www.google.com/gen_204",
+                    destination: "http://www.google.com/generate_204",
                     interval: "30m",
                     connectivity: "http://connectivitycheck.platform.hicloud.com/generate_204",
                     timeout: "10s",
@@ -934,6 +612,10 @@
                     this.oldXraySetting = xs;
                     this.xraySetting = xs;
                     this.inboundTags = result.inboundTags;
+                    this.clientReverseTags = result.clientReverseTags;
+                    this.outboundTags = result.outboundTags || [];
+                    this.outboundReverseTags = result.outboundReverseTags || [];
+                    this.loadedOutbounds = result.outbounds || [];
                     this.saveBtnDisable = true;
                 }
             },
@@ -973,74 +655,6 @@
             changePage(pageKey) {
                 if(pageKey == 'tpl-advanced') this.changeCode();
                 if(pageKey == 'tpl-balancer') this.changeObsCode();
-            },
-            syncRulesWithOutbound(tag, setting) {
-                const newTemplateSettings = this.templateSettings;
-                const haveRules = newTemplateSettings.routing.rules.some((r) => r?.outboundTag === tag);
-                const outboundIndex = newTemplateSettings.outbounds.findIndex((o) => o.tag === tag);
-                if (!haveRules && outboundIndex > 0) {
-                    newTemplateSettings.outbounds.splice(outboundIndex);
-                }
-                if (haveRules && outboundIndex < 0) {
-                    newTemplateSettings.outbounds.push(setting);
-                }
-                this.templateSettings = newTemplateSettings;
-            },
-            templateRuleGetter(routeSettings) {
-                const { property, outboundTag } = routeSettings;
-                let result = [];
-                if (this.templateSettings != null) {
-                    this.templateSettings.routing.rules.forEach(
-                        (routingRule) => {
-                            if (
-                                routingRule.hasOwnProperty(property) &&
-                                routingRule.hasOwnProperty("outboundTag") &&
-                                routingRule.outboundTag === outboundTag
-                            ) {
-                                result.push(...routingRule[property]);
-                            }
-                        }
-                    );
-                }
-                return result;
-            },
-            templateRuleSetter(routeSettings) {
-                const { data, property, outboundTag } = routeSettings;
-                const oldTemplateSettings = this.templateSettings;
-                const newTemplateSettings = oldTemplateSettings;
-                currentProperty = this.templateRuleGetter({ outboundTag, property })
-                if (currentProperty.length == 0) {
-                    const propertyRule = {
-                        type: "field",
-                        outboundTag,
-                        [property]: data
-                    };
-                    newTemplateSettings.routing.rules.push(propertyRule);
-                }
-                else {
-                    const newRules = [];
-                    insertedOnce = false;
-                    newTemplateSettings.routing.rules.forEach(
-                        (routingRule) => {
-                            if (
-                                routingRule.hasOwnProperty(property) &&
-                                routingRule.hasOwnProperty("outboundTag") &&
-                                routingRule.outboundTag === outboundTag
-                            ) {
-                                if (!insertedOnce && data.length > 0) {
-                                    insertedOnce = true;
-                                    routingRule[property] = data;
-                                    newRules.push(routingRule);
-                                }
-                            }
-                            else {
-                                newRules.push(routingRule);
-                            }
-                        }
-                    );
-                    newTemplateSettings.routing.rules = newRules;
-                }
-                this.templateSettings = newTemplateSettings;
             },
             changeCode() {
                 if(this.cm != null) {
@@ -1087,7 +701,9 @@
                 switch(o.protocol){
                     case Protocols.VMess:
                     case Protocols.VLESS:
-                        serverObj = o.settings.vnext;
+                        if (o.settings && o.settings.address && o.settings.port) {
+                        return [o.settings.address + ':' + o.settings.port];
+                        }
                         break;
                     case Protocols.HTTP:
                     case Protocols.Socks:
@@ -1103,131 +719,6 @@
                         return null;
                 }
                 return serverObj ? serverObj.map(obj => obj.address + ':' + obj.port) : null;
-            },
-            addOutbound(){
-                outModal.show({
-                    title: '{{ i18n "pages.xray.outbound.addOutbound"}}',
-                    okText: '{{ i18n "pages.xray.outbound.addOutbound" }}',
-                    confirm: (outbound) => {
-                        outModal.loading();
-                        if(outbound.tag.length > 0){
-                            this.templateSettings.outbounds.push(outbound);
-                            this.outboundSettings = JSON.stringify(this.templateSettings.outbounds);
-                        }
-                        outModal.close();
-                    },
-                    isEdit: false,
-                    tags: this.templateSettings.outbounds.map(obj => obj.tag)
-                });
-            },
-            editOutbound(index){
-                outModal.show({
-                    title: '{{ i18n "pages.xray.outbound.editOutbound"}} ' + (index+1),
-                    outbound: app.templateSettings.outbounds[index],
-                    confirm: (outbound) => {
-                        outModal.loading();
-                        this.templateSettings.outbounds[index] = outbound;
-                        this.outboundSettings = JSON.stringify(this.templateSettings.outbounds);
-                        outModal.close();
-                    },
-                    isEdit: true,
-                    tags: this.outboundData.filter((o) => o.key != index ).map(obj => obj.tag)
-                });
-            },
-            deleteOutbound(index){
-                outbounds = this.templateSettings.outbounds;
-                outbounds.splice(index,1);
-                this.outboundSettings = JSON.stringify(outbounds);
-            },
-            setFirstOutbound(index){
-                outbounds = this.templateSettings.outbounds;
-                outbounds.splice(0, 0, outbounds.splice(index, 1)[0]);
-                this.outboundSettings = JSON.stringify(outbounds);
-            },
-            addReverse(){
-                reverseModal.show({
-                    title: '{{ i18n "pages.xray.outbound.addReverse"}}',
-                    okText: '{{ i18n "pages.xray.outbound.addReverse" }}',
-                    confirm: (reverse, rules) => {
-                        reverseModal.loading();
-                        if(reverse.tag.length > 0){
-                            newTemplateSettings = this.templateSettings;
-                            if(newTemplateSettings.reverse == undefined) newTemplateSettings.reverse = {};
-                            if(newTemplateSettings.reverse[reverse.type+'s']  == undefined) newTemplateSettings.reverse[reverse.type+'s'] = [];
-                            newTemplateSettings.reverse[reverse.type+'s'].push({ tag: reverse.tag, domain: reverse.domain });
-                            this.templateSettings = newTemplateSettings;
-
-                            // Add related rules
-                            this.templateSettings.routing.rules.push(...rules);
-                            this.routingRuleSettings = JSON.stringify(this.templateSettings.routing.rules);
-                        }
-                        reverseModal.close();
-                    },
-                    isEdit: false
-                });
-            },
-            editReverse(index){
-                if(this.reverseData[index].type == "bridge") {
-                    oldRules = this.templateSettings.routing.rules.filter(r => r.inboundTag && r.inboundTag[0] == this.reverseData[index].tag);
-                } else {
-                    oldRules = this.templateSettings.routing.rules.filter(r => r.outboundTag && r.outboundTag == this.reverseData[index].tag);
-                }
-                reverseModal.show({
-                    title: '{{ i18n "pages.xray.outbound.editReverse"}} ' + (index+1),
-                    reverse: this.reverseData[index],
-                    rules: oldRules,
-                    confirm: (reverse, rules) => {
-                        reverseModal.loading();
-                        if(reverse.tag.length > 0){
-                            oldData = this.reverseData[index];
-                            newTemplateSettings = this.templateSettings;
-                            oldReverseIndex = newTemplateSettings.reverse[oldData.type+'s'].findIndex(rs => rs.tag == oldData.tag);
-                            oldRuleIndex0 = oldRules.length>0 ? newTemplateSettings.routing.rules.findIndex(r => JSON.stringify(r) == JSON.stringify(oldRules[0])) : -1;
-                            oldRuleIndex1 = oldRules.length==2 ? newTemplateSettings.routing.rules.findIndex(r => JSON.stringify(r) == JSON.stringify(oldRules[1])) : -1;
-                            if(oldData.type == reverse.type){
-                                newTemplateSettings.reverse[oldData.type + 's'][oldReverseIndex] = { tag: reverse.tag, domain: reverse.domain };
-                            } else {
-                                newTemplateSettings.reverse[oldData.type+'s'].splice(oldReverseIndex,1);
-                                // delete empty object
-                                if(newTemplateSettings.reverse[oldData.type+'s'].length == 0) Reflect.deleteProperty(newTemplateSettings.reverse, oldData.type+'s');
-                                // add other type of reverse if it is not exist
-                                if(!newTemplateSettings.reverse[reverse.type+'s']) newTemplateSettings.reverse[reverse.type+'s'] = [];
-                                newTemplateSettings.reverse[reverse.type+'s'].push({ tag: reverse.tag, domain: reverse.domain });
-                            }
-                            this.templateSettings = newTemplateSettings;
-
-                            // Adjust Rules
-                            newRules = this.templateSettings.routing.rules;
-                            oldRuleIndex0 != -1 ? newRules[oldRuleIndex0] = rules[0] : newRules.push(rules[0]);
-                            oldRuleIndex1 != -1 ? newRules[oldRuleIndex1] = rules[1] : newRules.push(rules[1]);
-                            this.routingRuleSettings = JSON.stringify(newRules);
-                        }
-                        reverseModal.close();
-                    },
-                    isEdit: true
-                });
-            },
-            deleteReverse(index){
-                oldData = this.reverseData[index];
-                newTemplateSettings = this.templateSettings;
-                reverseTypeObj = newTemplateSettings.reverse[oldData.type+'s'];
-                realIndex = reverseTypeObj.findIndex(r => r.tag==oldData.tag && r.domain==oldData.domain);
-                newTemplateSettings.reverse[oldData.type+'s'].splice(realIndex,1);
-
-                // delete empty objects
-                if(reverseTypeObj.length == 0) Reflect.deleteProperty(newTemplateSettings.reverse, oldData.type+'s');
-                if(Object.keys(newTemplateSettings.reverse).length === 0) Reflect.deleteProperty(newTemplateSettings, 'reverse');
-
-                // delete related routing rules
-                newRules = newTemplateSettings.routing.rules;
-                if(oldData.type == "bridge"){
-                    newRules = newTemplateSettings.routing.rules.filter(r => !( r.inboundTag && r.inboundTag.length == 1 && r.inboundTag[0] == oldData.tag));
-                } else if(oldData.type == "portal"){
-                    newRules = newTemplateSettings.routing.rules.filter(r => r.outboundTag != oldData.tag);
-                }
-                newTemplateSettings.routing.rules = newRules;
-                
-                this.templateSettings = newTemplateSettings;
             },
             addBalancer() {
                 balancerModal.show({
@@ -1258,8 +749,7 @@
                         }
                         newTemplateSettings.routing.balancers.push(tmpBalancer);
                         this.templateSettings = newTemplateSettings;
-                        if (balancer.strategy == 'leastPing' || balancer.strategy == 'leastLoad')
-                            this.updateObservatorySelectors();
+                        this.updateObservatorySelectors();
                         balancerModal.close();
                         this.changeObsCode();
                     },
@@ -1298,17 +788,11 @@
                         }
 
                         newTemplateSettings.routing.balancers[index] = tmpBalancer;
-                        // change edited tag if used in rule section
                         if (oldTag != balancer.tag) {
-                            newTemplateSettings.routing.rules.forEach((rule) => {
-                                if (rule.balancerTag && rule.balancerTag == oldTag) {
-                                    rule.balancerTag = balancer.tag;
-                                }
-                            });
+                            HttpUtil.post('/xui/routing/replaceBalancerTag', { oldTag: oldTag, newTag: balancer.tag });
                         }
                         this.templateSettings = newTemplateSettings;
-                        if (balancer.strategy == 'leastPing' || balancer.strategy == 'leastLoad')
-                            this.updateObservatorySelectors();
+                        this.updateObservatorySelectors();
                         balancerModal.close();
                         this.changeObsCode();
                     },
@@ -1318,7 +802,11 @@
             updateObservatorySelectors(){
                 newTemplateSettings = this.templateSettings;
                 const leastPings = this.balancersData.filter((b) => b.strategy == 'leastPing');
-                const leastLoads = this.balancersData.filter((b) => b.strategy == 'leastLoad');
+                const leastLoads = this.balancersData.filter((b) =>
+                    b.strategy === 'leastLoad' ||
+                    b.strategy === 'roundRobin' ||
+                    b.strategy === 'random'
+                );
                 if (leastPings.length>0){
                     if (!newTemplateSettings.observatory)
                         newTemplateSettings.observatory = this.defaultObservatory;
@@ -1427,50 +915,36 @@
                 fakeDns.splice(index,1);
                 this.fakeDns = fakeDns;
             },
-            addRule(){
-                ruleModal.show({
-                    title: '{{ i18n "pages.xray.rules.add"}}',
-                    okText: '{{ i18n "pages.xray.rules.add" }}',
-                    confirm: (rule) => {
-                        ruleModal.loading();
-                        if(JSON.stringify(rule).length > 3){
-                            this.templateSettings.routing.rules.push(rule);
-                            this.routingRuleSettings = JSON.stringify(this.templateSettings.routing.rules);
-                        }
-                        ruleModal.close();
+            addGeoDataAsset() {
+                geodataAssetModal.show({
+                    title: '{{ i18n "pages.xray.geodata.addAsset" }}',
+                    confirm: (asset) => {
+                        assets = this.geodataAssets;
+                        assets.push(asset);
+                        this.geodataAssets = assets;
+                        geodataAssetModal.close();
                     },
                     isEdit: false
                 });
             },
-            editRule(index){
-                ruleModal.show({
-                    title: '{{ i18n "pages.xray.rules.edit"}} ' + (index+1),
-                    rule: app.templateSettings.routing.rules[index],
-                    confirm: (rule) => {
-                        ruleModal.loading();
-                        if(JSON.stringify(rule).length > 3){
-                            this.templateSettings.routing.rules[index] = rule;
-                            this.routingRuleSettings = JSON.stringify(this.templateSettings.routing.rules);
-                        }
-                        ruleModal.close();
+            editGeoDataAsset(index) {
+                geodataAssetModal.show({
+                    title: '{{ i18n "pages.xray.geodata.editAsset" }} #' + (index + 1),
+                    asset: this.geodataAssets[index],
+                    confirm: (asset) => {
+                        assets = this.geodataAssets;
+                        assets[index] = asset;
+                        this.geodataAssets = assets;
+                        geodataAssetModal.close();
                     },
                     isEdit: true
                 });
             },
-            replaceRule(old_index,new_index){
-                rules = this.templateSettings.routing.rules;
-                if (new_index >= rules.length) rules.push(undefined);
-                rules.splice(new_index, 0, rules.splice(old_index, 1)[0]);
-                this.routingRuleSettings = JSON.stringify(rules);
+            deleteGeoDataAsset(index) {
+                assets = this.geodataAssets;
+                assets.splice(index, 1);
+                this.geodataAssets = assets;
             },
-            deleteRule(index){
-                rules = this.templateSettings.routing.rules;
-                rules.splice(index,1);
-                this.routingRuleSettings = JSON.stringify(rules);
-            },
-            showWarp(){
-                warpModal.show();
-            }
         },
         async mounted() {
             if (window.location.protocol !== "https:") {
@@ -1559,72 +1033,6 @@
                     this.templateSettings = newTemplateSettings;
                 },
             },
-            outboundSettings: {
-                get: function () { return this.templateSettings ? JSON.stringify(this.templateSettings.outbounds, null, 2) : null; },
-                set: function (newValue) {
-                    newTemplateSettings = this.templateSettings;
-                    newTemplateSettings.outbounds = JSON.parse(newValue);
-                    this.templateSettings = newTemplateSettings;
-                },
-            },
-            outboundData: {
-                get: function () {
-                    data = []
-                    if (this.templateSettings != null) {
-                        this.templateSettings.outbounds.forEach((o, index) => {
-                            data.push({'key': index, ...o});
-                        });
-                    }
-                    return data;
-                },
-            },
-            reverseData: {
-                get: function () {
-                    data = []
-                    if (this.templateSettings != null && this.templateSettings.reverse != null) {
-                        if(this.templateSettings.reverse.bridges) {
-                            this.templateSettings.reverse.bridges.forEach((o, index) => {
-                                data.push({'key': index, 'type':'bridge', ...o});
-                            });
-                        }
-                        if(this.templateSettings.reverse.portals){
-                            this.templateSettings.reverse.portals.forEach((o, index) => {
-                                data.push({'key': index, 'type':'portal', ...o});
-                            });
-                        }
-                    }
-                    return data;
-                },
-            },
-            routingRuleSettings: {
-                get: function () { return this.templateSettings ? JSON.stringify(this.templateSettings.routing.rules, null, 2) : null; },
-                set: function (newValue) {
-                    newTemplateSettings = this.templateSettings;
-                    newTemplateSettings.routing.rules = JSON.parse(newValue);
-                    this.templateSettings = newTemplateSettings;
-                },
-            },
-            routingRuleData: {
-                get: function () {
-                    data = [];
-                    if (this.templateSettings != null) {
-                        this.templateSettings.routing.rules.forEach((r, index) => {
-                            data.push({'key': index, ...r});
-                        });
-                        // Make rules readable
-                        data.forEach(r => {
-                            if(r.domain) r.domain = r.domain.join(',')
-                            if(r.ip) r.ip = r.ip.join(',')
-                            if(r.source) r.source = r.source.join(',');
-                            if(r.user) r.user = r.user.join(',')
-                            if(r.inboundTag) r.inboundTag = r.inboundTag.join(',')
-                            if(r.protocol) r.protocol = r.protocol.join(',')
-                            if(r.attrs) r.attrs = JSON.stringify(r.attrs, null, 2)
-                        });
-                    }
-                    return data;
-                }
-            },
             balancersData: {
                 get: function () {
                     data = []
@@ -1666,23 +1074,21 @@
             burstObservatoryEnable: function () { return this.templateSettings != null && this.templateSettings.burstObservatory != undefined },
             freedomStrategy: {
                 get: function () {
-                    if (!this.templateSettings) return "AsIs";
-                    freedomOutbound = this.templateSettings.outbounds.find((o) => o.protocol === "freedom" && o.tag == "direct");
-                    if (!freedomOutbound) return "AsIs";
-                    if (!freedomOutbound.settings || !freedomOutbound.settings.domainStrategy) return "AsIs";
+                    const freedomOutbound = this.loadedOutbounds.find((o) => o.protocol === "freedom" && o.tag == "direct");
+                    if (!freedomOutbound || !freedomOutbound.settings || !freedomOutbound.settings.domainStrategy) return "AsIs";
                     return freedomOutbound.settings.domainStrategy;
                 },
                 set: function (newValue) {
-                    newTemplateSettings = this.templateSettings;
-                    freedomOutboundIndex = newTemplateSettings.outbounds.findIndex((o) => o.protocol === "freedom" && o.tag == "direct");
-                    if(freedomOutboundIndex == -1){
-                        newTemplateSettings.outbounds.push({protocol: "freedom", tag: "direct", settings: { "domainStrategy": newValue }});
-                    } else if (!newTemplateSettings.outbounds[freedomOutboundIndex].settings) {
-                        newTemplateSettings.outbounds[freedomOutboundIndex].settings = { "domainStrategy": newValue };
-                    } else {
-                        newTemplateSettings.outbounds[freedomOutboundIndex].settings.domainStrategy = newValue;
-                    }
-                    this.templateSettings = newTemplateSettings;
+                    const freedomOutbound = this.loadedOutbounds.find((o) => o.protocol === "freedom" && o.tag == "direct");
+                    if (!freedomOutbound) return;
+                    const settings = freedomOutbound.settings || {};
+                    settings.domainStrategy = newValue;
+                    const data = {
+                        protocol: freedomOutbound.protocol,
+                        tag: freedomOutbound.tag,
+                        settings: JSON.stringify(settings, null, 2),
+                    };
+                    HttpUtil.post(`/xui/outbound/update/${freedomOutbound.id}`, data).then(() => this.getXraySetting());
                 }
             },
             routingStrategy: {
@@ -1695,77 +1101,6 @@
                     newTemplateSettings.routing.domainStrategy = newValue;
                     this.templateSettings = newTemplateSettings;
                 }
-            },
-            blockedIPs: {
-                get: function () {
-                    return this.templateRuleGetter({ outboundTag: "blocked", property: "ip" });
-                },
-                set: function (newValue) {
-                    this.templateRuleSetter({ outboundTag: "blocked", property: "ip", data: newValue });
-                }
-            },
-            blockedDomains: {
-                get: function () {
-                    return this.templateRuleGetter({ outboundTag: "blocked", property: "domain" });
-                },
-                set: function (newValue) {
-                    this.templateRuleSetter({ outboundTag: "blocked", property: "domain", data: newValue });
-                }
-            },
-            blockedProtocols: {
-                get: function () {
-                    return this.templateRuleGetter({ outboundTag: "blocked", property: "protocol" });
-                },
-                set: function (newValue) {
-                    this.templateRuleSetter({ outboundTag: "blocked", property: "protocol", data: newValue });
-                }
-            },
-            directIPs: {
-                get: function () {
-                    return this.templateRuleGetter({ outboundTag: "direct", property: "ip" });
-                },
-                set: function (newValue) {
-                    this.templateRuleSetter({ outboundTag: "direct", property: "ip", data: newValue });
-                    this.syncRulesWithOutbound("direct", this.directSettings);
-                }
-            },
-            directDomains: {
-                get: function () {
-                    return this.templateRuleGetter({ outboundTag: "direct", property: "domain" });
-                },
-                set: function (newValue) {
-                    this.templateRuleSetter({ outboundTag: "direct", property: "domain", data: newValue });
-                    this.syncRulesWithOutbound("direct", this.directSettings);
-                }
-            },
-            ipv4Domains: {
-                get: function () {
-                    return this.templateRuleGetter({ outboundTag: "IPv4", property: "domain" });
-                },
-                set: function (newValue) {
-                    this.templateRuleSetter({ outboundTag: "IPv4", property: "domain", data: newValue });
-                    this.syncRulesWithOutbound("IPv4", this.ipv4Settings);
-                }
-            },
-            warpDomains: {
-                get: function () {
-                    return this.templateRuleGetter({ outboundTag: "warp", property: "domain" });
-                },
-                set: function (newValue) {
-                    this.templateRuleSetter({ outboundTag: "warp", property: "domain", data: newValue });
-                }
-            },
-            torrentSettings: {
-                get: function () {
-                    return doAllItemsExist(this.settingsData.protocols.bittorrent, this.blockedProtocols);
-                },
-                set: function (newValue) {
-                    if (newValue) {
-                        this.blockedProtocols = [...this.blockedProtocols, ...this.settingsData.protocols.bittorrent];
-                    } else {
-                        this.blockedProtocols = this.blockedProtocols.filter(data => !this.settingsData.protocols.bittorrent.includes(data));
-                    }
-                },
             },
             familyProtectSettings: {
                 get: function () {
@@ -1784,7 +1119,7 @@
             },
             WarpExist: {
                 get: function() {
-                    return this.templateSettings ? this.templateSettings.outbounds.findIndex((o) => o.tag == "warp")>=0  : false;
+                    return this.outboundTags ? this.outboundTags.includes("warp") : false;
                 },
             },
             enableDNS: {
@@ -1836,6 +1171,82 @@
                 set: function (newValue) {
                     newTemplateSettings = this.templateSettings;
                     newTemplateSettings.fakedns = newValue.length >0 ? newValue : null;
+                    this.templateSettings = newTemplateSettings;
+                }
+            },
+            geodataSettings: function () {
+                if (!this.templateSettings) return null;
+                return this.templateSettings.geodata ?? this.templateSettings.geoData ?? null;
+            },
+            enableGeoData: {
+                get: function () { return this.geodataSettings != null; },
+                set: function (newValue) {
+                    newTemplateSettings = this.templateSettings;
+                    if (newValue) {
+                        if (!newTemplateSettings.geodata) {
+                            newTemplateSettings.geodata = newTemplateSettings.geoData ?? { assets: [] };
+                            delete newTemplateSettings.geoData;
+                        }
+                    } else {
+                        delete newTemplateSettings.geodata;
+                        delete newTemplateSettings.geoData;
+                    }
+                    this.templateSettings = newTemplateSettings;
+                }
+            },
+            geodataCron: {
+                get: function () {
+                    const g = this.geodataSettings;
+                    return g && g.cron ? g.cron : '';
+                },
+                set: function (newValue) {
+                    newTemplateSettings = this.templateSettings;
+                    if (!newTemplateSettings.geodata) {
+                        newTemplateSettings.geodata = newTemplateSettings.geoData ?? { assets: [] };
+                        delete newTemplateSettings.geoData;
+                    }
+                    if (newValue) {
+                        newTemplateSettings.geodata.cron = newValue;
+                    } else {
+                        delete newTemplateSettings.geodata.cron;
+                    }
+                    this.templateSettings = newTemplateSettings;
+                }
+            },
+            geodataOutbound: {
+                get: function () {
+                    const g = this.geodataSettings;
+                    return g && g.outbound ? g.outbound : '';
+                },
+                set: function (newValue) {
+                    newTemplateSettings = this.templateSettings;
+                    if (!newTemplateSettings.geodata) {
+                        newTemplateSettings.geodata = newTemplateSettings.geoData ?? { assets: [] };
+                        delete newTemplateSettings.geoData;
+                    }
+                    if (newValue) {
+                        newTemplateSettings.geodata.outbound = newValue;
+                    } else {
+                        delete newTemplateSettings.geodata.outbound;
+                    }
+                    this.templateSettings = newTemplateSettings;
+                }
+            },
+            geodataOutboundTags: function () {
+                return this.outboundTags || [];
+            },
+            geodataAssets: {
+                get: function () {
+                    const g = this.geodataSettings;
+                    return g && g.assets ? g.assets : [];
+                },
+                set: function (newValue) {
+                    newTemplateSettings = this.templateSettings;
+                    if (!newTemplateSettings.geodata) {
+                        newTemplateSettings.geodata = newTemplateSettings.geoData ?? { assets: [] };
+                        delete newTemplateSettings.geoData;
+                    }
+                    newTemplateSettings.geodata.assets = newValue;
                     this.templateSettings = newTemplateSettings;
                 }
             }

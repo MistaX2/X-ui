@@ -145,7 +145,7 @@ new Vue({
                             publicKey: peer.public_key,
                             endpoint: peer.endpoint.host,
                         }],
-                        kernelMode: false
+                        noKernelTun: false
                     }
                 });
             }
@@ -174,10 +174,10 @@ new Vue({
         },
         async register(){
             warpModal.loading(true);
-            keys = Wireguard.generateKeypair();
+            const keys = Wireguard.generateKeypair();
             const msg = await HttpUtil.post('/xui/xray/warp/reg',keys);
             if (msg.success) {
-                resp = JSON.parse(msg.obj);
+                const resp = JSON.parse(msg.obj);
                 warpModal.warpData = resp.data;
                 warpModal.warpConfig = resp.config;
                 this.collectConfig();
@@ -213,20 +213,36 @@ new Vue({
                 this.delOutbound();
             }
         },
-        addOutbound(){
-            app.templateSettings.outbounds.push(warpModal.warpOutbound.toJson());
-            app.outboundSettings = JSON.stringify(app.templateSettings.outbounds);
-            warpModal.close();
+        async addOutbound(){
+            warpModal.loading(true);
+            const db = new DBOutbound();
+            const data = DBOutbound.payloadFromOutbound(warpModal.warpOutbound, db);
+            const msg = await HttpUtil.post('/xui/outbound/add', data);
+            warpModal.loading(false);
+            if (msg.success) {
+                await app.getDBOutbounds();
+                warpModal.close();
+            }
         },
-        resetOutbound(){
-            app.templateSettings.outbounds[this.warpOutboundIndex] = warpModal.warpOutbound.toJson();
-            app.outboundSettings = JSON.stringify(app.templateSettings.outbounds);
-            warpModal.close();
+        async resetOutbound(){
+            const row = app.dbOutbounds[this.warpOutboundIndex];
+            if (!row) return;
+            warpModal.loading(true);
+            const data = DBOutbound.payloadFromOutbound(warpModal.warpOutbound, row);
+            const msg = await HttpUtil.post(`/xui/outbound/update/${row.id}`, data);
+            warpModal.loading(false);
+            if (msg.success) {
+                await app.getDBOutbounds();
+                warpModal.close();
+            }
         },
-        delOutbound(){
-            if (this.warpOutboundIndex != -1){
-                app.templateSettings.outbounds.splice(this.warpOutboundIndex,1);
-                app.outboundSettings = JSON.stringify(app.templateSettings.outbounds);
+        async delOutbound(){
+            const row = app.dbOutbounds[this.warpOutboundIndex];
+            if (row) {
+                warpModal.loading(true);
+                await HttpUtil.post(`/xui/outbound/del/${row.id}`);
+                warpModal.loading(false);
+                await app.getDBOutbounds();
             }
             warpModal.close();
         }
@@ -234,7 +250,7 @@ new Vue({
     computed: {
         warpOutboundIndex: {
             get: function() {
-                return app.templateSettings ? app.templateSettings.outbounds.findIndex((o) => o.tag == 'warp') : -1;
+                return app.dbOutbounds ? app.dbOutbounds.findIndex((o) => o.tag == 'warp') : -1;
             }
         }
     }
